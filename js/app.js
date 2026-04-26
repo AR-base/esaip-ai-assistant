@@ -630,17 +630,13 @@ function addBotStreaming() {
 
 function setBotMessage(row, text, final) {
   const bbl = row.querySelector('.bbl');
-  bbl.className = 'bbl bb';
   if (final) {
+    bbl.className = 'bbl bb';
     bbl.innerHTML = fmt(text);
-    const actions = row.querySelector('.msg-actions');
-    actions.innerHTML = `<button class="msg-btn" onclick="copyMsg(this)">${_t('Copier','Copy')}</button><button class="msg-btn" onclick="downloadMsg(this)">${_t('Enregistrer','Save')}</button>`;
+    row.querySelector('.msg-actions').innerHTML = `<button class="msg-btn" onclick="copyMsg(this)">${_t('Copier','Copy')}</button><button class="msg-btn" onclick="downloadMsg(this)">${_t('Enregistrer','Save')}</button>`;
   } else {
+    bbl.className = 'bbl bb streaming';
     bbl.textContent = text;
-    const cur = document.createElement('span');
-    cur.className = 'stream-cursor';
-    cur.textContent = '▌';
-    bbl.appendChild(cur);
   }
   $e('msgs').scrollTop = $e('msgs').scrollHeight;
 }

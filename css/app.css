@@ -778,8 +778,9 @@ body::before {
   background: rgba(201,168,76,.07);
 }
 
-/* Streaming cursor */
-.stream-cursor {
+/* Streaming cursor — CSS ::after so animation never resets between tokens */
+.bbl.streaming::after {
+  content: '▌';
   color: var(--gold2);
   animation: blink .6s step-end infinite;
   font-weight: 300;
