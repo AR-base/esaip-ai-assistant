@@ -435,7 +435,7 @@ window.onload = () => {
       if (!apiKey) $e('setup').classList.remove('hidden');
       else initApp();
     }, 600);
-  }, 2200);
+  }, 1400);
 
   setLang(lang, true);
   setRole(role, true);
@@ -511,7 +511,7 @@ function renderChips() {
 
 async function startApp() {
   const k = $e('api-in').value.trim();
-  if (!k) { alert(_t('Veuillez entrer le mot de passe.', 'Please enter the password.')); return; }
+  if (!k) { toast(_t('Veuillez entrer le mot de passe.', 'Please enter the password.'), 'warning'); return; }
 
   const btn = $e('su-btn');
   btn.disabled = true;
@@ -521,7 +521,7 @@ async function startApp() {
     const res = await fetch(BACKEND_URL, { headers: { 'x-school-password': k } });
     const data = await res.json();
     if (!res.ok || !data.valid) {
-      alert(_t('Mot de passe incorrect.', 'Incorrect password.'));
+      toast(_t('Mot de passe incorrect.', 'Incorrect password.'), 'error');
       btn.disabled = false;
       btn.textContent = t('su_btn');
       return;
@@ -534,7 +534,7 @@ async function startApp() {
     $e('setup').classList.add('hidden');
     initApp();
   } catch (e) {
-    alert(_t('Erreur de connexion.', 'Connection error.'));
+    toast(_t('Erreur de connexion.', 'Connection error.'), 'error');
     btn.disabled = false;
     btn.textContent = t('su_btn');
   }
@@ -587,6 +587,22 @@ function fmt(s) {
 }
 
 function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+function toast(msg, type = 'error', duration = 4000) {
+  const icons = { error: '❌', warning: '⚠️', success: '✅', info: 'ℹ️' };
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<div class="toast-body"><span class="toast-icon">${icons[type] || '•'}</span><span class="toast-msg">${msg}</span><button class="toast-close" onclick="this.closest('.toast').remove()">✕</button></div><div class="toast-bar" style="animation-duration:${duration}ms"></div>`;
+  const c = $e('toast-container') || (() => { const d = document.createElement('div'); d.id = 'toast-container'; document.body.appendChild(d); return d; })();
+  c.appendChild(el);
+  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 250); }, duration);
+}
+
+function toggleTheme() {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('esaip_theme', next);
+}
 
 function addBot(txt) {
   const msgs = $e('msgs');
@@ -658,7 +674,7 @@ function downloadMsg(btn) {
 }
 
 function exportChat() {
-  if (!history.length) { alert(_t('Aucune conversation à exporter.', 'No conversation to export.')); return; }
+  if (!history.length) { toast(_t('Aucune conversation à exporter.', 'No conversation to export.'), 'warning'); return; }
   const lines = history.map(m => {
     const label = m.role === 'user' ? _t('Vous', 'You') : 'ESAIP Assistant';
     const content = typeof m.content === 'string' ? m.content : _t('[Fichier joint]', '[Attached file]');
@@ -772,11 +788,24 @@ async function send() {
       setBotMessage(botRow, fullText || t('err_net'), true);
     } else {
       const data = await res.json();
-      const msg = data.error
-        ? t('err_api') + data.error.message
-        : (data.content || []).map(c => c.text || '').join('');
-      fullText = msg;
-      setBotMessage(botRow, msg, true);
+      if (res.status === 429) {
+        const rateTxt = _t('Limite atteinte — réessayez dans une heure.', 'Rate limit reached — try again in an hour.');
+        toast(data.error?.message || rateTxt, 'warning', 6000);
+        setBotMessage(botRow, rateTxt, true);
+      } else if (res.status === 401) {
+        botRow.remove();
+        history.pop();
+        localStorage.removeItem('esaip_k');
+        apiKey = '';
+        toast(_t('Session expirée. Reconnectez-vous.', 'Session expired. Please log in again.'), 'warning', 5000);
+        setTimeout(() => { $e('app').classList.add('hidden'); $e('setup').classList.remove('hidden'); $e('api-in').value = ''; }, 800);
+      } else {
+        const msg = data.error
+          ? t('err_api') + data.error.message
+          : (data.content || []).map(c => c.text || '').join('');
+        fullText = msg;
+        setBotMessage(botRow, msg, true);
+      }
     }
 
     if (fullText && !fullText.startsWith('❌')) {
@@ -800,7 +829,7 @@ async function onFileSelected(ev) {
   if (!file) return;
 
   if (file.size > 5 * 1024 * 1024) {
-    alert(_t('Fichier trop volumineux (max 5 MB).', 'File too large (max 5 MB).'));
+    toast(_t('Fichier trop volumineux (max 5 MB).', 'File too large (max 5 MB).'), 'warning');
     ev.target.value = '';
     return;
   }
@@ -830,7 +859,7 @@ async function onFileSelected(ev) {
         size: file.size, data: text.slice(0, 50000),
       };
     } else {
-      alert(_t('Format non supporté. Formats acceptés : PDF, TXT, MD, HTML, PNG, JPG.', 'Unsupported format. Accepted: PDF, TXT, MD, HTML, PNG, JPG.'));
+      toast(_t('Format non supporté. Formats acceptés : PDF, TXT, MD, HTML, PNG, JPG.', 'Unsupported format. Accepted: PDF, TXT, MD, HTML, PNG, JPG.'), 'warning');
       ev.target.value = '';
       return;
     }
@@ -843,7 +872,7 @@ async function onFileSelected(ev) {
     }
     $e('txt').focus();
   } catch (err) {
-    alert(_t('Erreur de lecture du fichier.', 'Could not read file.'));
+    toast(_t('Erreur de lecture du fichier.', 'Could not read file.'), 'error');
     console.error(err);
   }
 
