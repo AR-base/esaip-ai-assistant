@@ -1,0 +1,9 @@
+{
+  "name": "esaip-ai-assistant",
+  "version": "1.0.0",
+  "description": "ESAIP AI Assistant — Bilingual chat assistant powered by Claude",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}

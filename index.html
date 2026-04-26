@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Assistant IA officiel de l'ESAIP — formations, Moodle, aide pédagogique. Bilingue FR/EN.">
+<meta name="theme-color" content="#04080F">
+<meta property="og:title" content="ESAIP — Assistant IA">
+<meta property="og:description" content="Posez vos questions sur les formations, Moodle et la vie étudiante à l'ESAIP.">
+<meta property="og:type" content="website">
+<meta name="robots" content="noindex, nofollow">
+<title>ESAIP — Assistant IA</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2304080F'/%3E%3Crect x='1' y='1' width='30' height='30' rx='7' fill='none' stroke='%23C9A84C' stroke-width='1' opacity='.6'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='18' font-weight='700' fill='%23E4C05A'%3EE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-inner">
+    <div class="splash-crest"><img src="https://www.esaip.org/wp-content/themes/esaip-v2/assets/images/Logo-ESAIP_2024.svg" alt="ESAIP"/></div>
+    <div class="splash-h">ESAIP</div>
+    <div class="splash-s" id="spl-sub">Assistant IA · Angers · Aix-en-Provence</div>
+    <div class="splash-bar"><div class="splash-fill" id="spl-fill"></div></div>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="setup" class="hidden">
+  <div class="setup-wrap">
+    <div class="setup-top">
+      <div class="setup-brand">
+        <div class="sb-logo"><img src="https://www.esaip.org/wp-content/themes/esaip-v2/assets/images/Logo-ESAIP_2024.svg" alt="ESAIP"/></div>
+        <div>
+          <div class="sb-name">ESAIP</div>
+          <div class="sb-sub" id="su-sub">École d'Ingénieurs · Angers · Aix-en-Provence</div>
+        </div>
+      </div>
+
+      <div class="lang-tabs">
+        <button class="ltab on" id="lt-fr" onclick="setLang('fr')">🇫🇷 Français</button>
+        <button class="ltab" id="lt-en" onclick="setLang('en')">🇬🇧 English</button>
+      </div>
+
+      <div class="setup-label" id="su-profile-lbl">Choisissez votre profil</div>
+      <div class="role-cards">
+        <div class="rc on" id="rc-s" onclick="setRole('student')">
+          <span class="rc-ico">🎓</span>
+          <div class="rc-n" id="rc-sn">Étudiant(e)</div>
+          <div class="rc-s" id="rc-ss">Cours, formations, campus</div>
+        </div>
+        <div class="rc" id="rc-f" onclick="setRole('faculty')">
+          <span class="rc-ico">👩‍🏫</span>
+          <div class="rc-n" id="rc-fn">Enseignant(e)</div>
+          <div class="rc-s" id="rc-fs">Moodle, syllabus, notes</div>
+        </div>
+      </div>
+
+      <div class="setup-label" id="su-key-lbl">Mot de passe ESAIP</div>
+      <input class="setup-input" type="password" id="api-in" placeholder="••••••••" autocomplete="current-password"/>
+      <button class="setup-btn" onclick="startApp()" id="su-btn">Accéder à l'assistant →</button>
+    </div>
+    <div class="setup-note">
+      <span id="su-note">Demandez le mot de passe à votre enseignant</span> ·
+      <span id="su-note2">Aucune installation requise</span>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div id="sidebar-overlay" onclick="toggleMenu()"></div>
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="sb-head">
+      <div class="sb-top">
+        <div class="sb-cr"><img src="https://www.esaip.org/wp-content/themes/esaip-v2/assets/images/Logo-ESAIP_2024.svg" alt="ESAIP"/></div>
+        <div>
+          <div class="sb-hn">ESAIP</div>
+          <div class="sb-hs" id="sb-tagline">Assistant IA</div>
+        </div>
+      </div>
+    </div>
+    <div id="mode-pill-wrap"></div>
+
+    <div class="sb-scroll">
+
+      <!-- STUDENT -->
+      <div id="sec-stu">
+        <div class="sb-sec">
+          <div class="sb-lbl" id="lbl-prog">Formations</div>
+          <button class="sb-btn" onclick="q(_t('Présente le programme Ingénieur du Numérique : cursus, spécialités Cybersécurité et IA, frais et admission','Tell me about the Digital Engineering program: curriculum, Cybersecurity and AI tracks, fees and admission'))">
+            <div class="sico sico-b">💻</div><span id="s-num">Ingénieur du Numérique</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Présente le programme Ingénieur Gestion des Risques et Environnement : cursus complet, débouchés et frais','Tell me about the Risk & Environment Engineering program: full curriculum, careers and fees'))">
+            <div class="sico sico-t">🌿</div><span id="s-gre">Ingénieur GRE</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Présente le Bachelor Cybersécurité : programme, admissions et frais de scolarité','Tell me about the Cybersecurity Bachelor: program, admission and fees'))">
+            <div class="sico sico-b">🔐</div>Bachelor Cybersécurité
+          </button>
+          <button class="sb-btn" onclick="q(_t('Présente le Bachelor IA et Data Sciences : programme, collaboration UCO et admissions','Tell me about the AI & Data Sciences Bachelor: program, UCO collaboration and admission'))">
+            <div class="sico sico-b">🤖</div>Bachelor IA & Data Sciences
+          </button>
+          <button class="sb-btn" onclick="q(_t('Présente l\'Expert Réseaux Infrastructures et Sécurité et l\'Expert Architecture Logiciel','Tell me about Expert Networks & Security and Expert Software Architecture programs'))">
+            <div class="sico sico-b">🛡️</div><span id="s-exp">Programmes Expert Bac+5</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Présente le MSc Cybersecurity and Data Science en anglais','Tell me about the MSc Cybersecurity and Data Science program'))">
+            <div class="sico sico-b">📊</div>MSc Cybersecurity & Data Science
+          </button>
+          <button class="sb-btn" onclick="q(_t('Présente les programmes en alternance et apprentissage à l\'ESAIP','Tell me about all apprenticeship and work-study programs at ESAIP'))">
+            <div class="sico sico-g">🏢</div><span id="s-alt">Formations en alternance</span>
+          </button>
+        </div>
+        <div class="sb-div"></div>
+        <div class="sb-sec">
+          <div class="sb-lbl" id="lbl-info">Informations</div>
+          <button class="sb-btn" onclick="q(_t('Comment s\'inscrire à l\'ESAIP ? Toutes les voies d\'admission en détail','How to apply to ESAIP? All admission routes in detail'))">
+            <div class="sico sico-w">📋</div><span id="s-adm">Admission & candidature</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Quels sont les frais de scolarité de l\'ESAIP par formation et les aides disponibles ?','What are ESAIP tuition fees per program and available financial aid?'))">
+            <div class="sico sico-w">💶</div><span id="s-fees">Frais & financement</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Parle-moi des opportunités internationales à l\'ESAIP : séjours, parcours anglophone, partenaires','Tell me about international opportunities at ESAIP: semesters abroad, English track, partners'))">
+            <div class="sico sico-t">🌍</div><span id="s-intl">International</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Vie étudiante, campus d\'Angers et d\'Aix-en-Provence, associations','Student life, Angers and Aix-en-Provence campuses, student associations'))">
+            <div class="sico sico-w">🎭</div><span id="s-life">Vie étudiante</span>
+          </button>
+        </div>
+        <div class="sb-div"></div>
+        <div class="sb-sec">
+          <div class="sb-lbl" id="lbl-moodle-s">Aide Moodle</div>
+          <button class="sb-btn" onclick="q(_t('Comment soumettre un devoir sur Moodle ESAIP ? Étapes détaillées','How do I submit an assignment on ESAIP Moodle? Step-by-step guide'))">
+            <div class="sico sico-b">📤</div><span id="m-submit">Soumettre un devoir</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Comment voir mes notes et le carnet de notes sur Moodle ?','How do I view my grades on Moodle?'))">
+            <div class="sico sico-b">📊</div><span id="m-grades">Voir mes notes</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Comment passer un quiz ou QCM en ligne sur Moodle ?','How do I take an online quiz on Moodle?'))">
+            <div class="sico sico-b">🧠</div><span id="m-quiz">Passer un quiz</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Comment télécharger les ressources et documents d\'un cours Moodle ?','How do I download course materials from Moodle?'))">
+            <div class="sico sico-b">📥</div><span id="m-dl">Télécharger les ressources</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Que faire en cas de problème sur Moodle ? Mot de passe oublié, accès, etc.','What to do if I have a Moodle issue? Password, access, etc.'))">
+            <div class="sico sico-w">🔧</div><span id="m-trouble">Dépannage</span>
+          </button>
+          <button class="sb-btn" onclick="document.getElementById('file-in').click()">
+            <div class="sico sico-g">📎</div><span id="m-upload">Joindre un document</span>
+          </button>
+        </div>
+        <div class="sb-div"></div>
+        <div class="sb-sec">
+          <a class="sb-link" href="https://www.esaip.org/candidature/" target="_blank"><div class="sico sico-g">📝</div><span id="s-apply">Candidature</span></a>
+          <a class="sb-link" href="https://www.esaip.org/formation/" target="_blank"><div class="sico sico-w">📚</div><span id="s-allf">Toutes les formations</span></a>
+          <a class="sb-link" href="https://www.esaip.org/demande-de-documentation/" target="_blank"><div class="sico sico-w">📄</div><span id="s-doc">Documentation</span></a>
+        </div>
+      </div>
+
+      <!-- FACULTY -->
+      <div id="sec-fac" style="display:none">
+        <div class="sb-sec">
+          <div class="sb-lbl" id="lbl-tools">Outils pédagogiques</div>
+          <button class="sb-btn" onclick="q(_t('Comment créer et organiser un cours sur Moodle ESAIP ? Guide complet','How to create and organize a course on ESAIP Moodle? Complete guide'))">
+            <div class="sico sico-g">🖥️</div><span id="f-moodle">Créer un cours Moodle</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Aide-moi à rédiger un syllabus de cours complet conforme au référentiel CTI','Help me write a complete CTI-compliant course syllabus'))">
+            <div class="sico sico-g">📝</div><span id="f-syl">Rédiger un syllabus CTI</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Génère un plan de cours détaillé pour une séance pédagogique de 3 heures','Generate a detailed lesson plan for a 3-hour teaching session'))">
+            <div class="sico sico-w">📖</div><span id="f-plan">Plan de cours</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Crée une grille d\'évaluation avec barème de notation et critères CTI','Create an evaluation rubric with grading scale and CTI criteria'))">
+            <div class="sico sico-g">📊</div><span id="f-eval">Grille d'évaluation</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Génère un QCM de 20 questions avec corrigé sur un sujet donné','Generate a 20-question quiz with answer key on a given topic'))">
+            <div class="sico sico-w">📋</div><span id="f-qcm">Créer un QCM / Examen</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Aide-moi à rédiger un rapport de jury de soutenance de stage ou de projet','Help me write a defense jury or project evaluation report'))">
+            <div class="sico sico-w">📄</div><span id="f-rep">Rapport de jury</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Rédige un email professionnel aux étudiants pour une annonce importante','Write a professional email to students for an important announcement'))">
+            <div class="sico sico-b">✉️</div><span id="f-email">Email aux étudiants</span>
+          </button>
+        </div>
+        <div class="sb-div"></div>
+        <div class="sb-sec">
+          <div class="sb-lbl" id="lbl-moodle-f">Moodle enseignants</div>
+          <button class="sb-btn" onclick="q(_t('Comment ajouter une ressource (PDF, vidéo, lien) à mon cours Moodle ?','How to add a resource (PDF, video, link) to my Moodle course?'))">
+            <div class="sico sico-g">📂</div><span id="mf-res">Ajouter une ressource</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Comment créer un devoir noté sur Moodle avec date limite ?','How to create a graded assignment on Moodle with deadline?'))">
+            <div class="sico sico-g">✍️</div><span id="mf-dev">Créer un devoir</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Comment noter les copies des étudiants sur Moodle ?','How to grade student submissions on Moodle?'))">
+            <div class="sico sico-g">⭐</div><span id="mf-grade">Noter les copies</span>
+          </button>
+          <button class="sb-btn" onclick="q(_t('Comment exporter le carnet de notes Moodle vers Excel ou CSV ?','How to export the Moodle gradebook to Excel or CSV?'))">
+            <div class="sico sico-w">📤</div><span id="mf-exp">Exporter les notes</span>
+          </button>
+          <button class="sb-btn" onclick="document.getElementById('file-in').click()">
+            <div class="sico sico-g">📎</div><span id="mf-upload">Analyser un document</span>
+          </button>
+        </div>
+        <div class="sb-div"></div>
+        <div class="sb-sec">
+          <div class="sb-lbl">Liens</div>
+          <a class="sb-link" href="https://moodle.esaip.org" target="_blank"><div class="sico sico-g">🖥️</div>Moodle enseignants</a>
+          <a class="sb-link" href="https://www.esaip.org" target="_blank"><div class="sico sico-w">🌐</div>esaip.org</a>
+        </div>
+      </div>
+
+    </div><!-- /sb-scroll -->
+
+    <div class="sb-foot">
+      <button class="sf-btn" onclick="newChat()" id="f-new">✨ Nouveau chat</button>
+      <button class="sf-btn" onclick="switchProfile()" id="f-switch">🔄 Changer de profil</button>
+      <button class="sf-btn" onclick="resetKey()" id="f-key">🚪 Se déconnecter</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+    <div id="topbar">
+      <div class="tb-l">
+        <button class="tb-back" onclick="toggleMenu()" title="Menu" style="font-size:22px;padding:6px 12px;">☰</button>
+        <div>
+          <h3 id="tb-title">Assistant IA ESAIP</h3>
+          <p id="tb-sub">École d'Ingénieurs · Angers · Aix-en-Provence</p>
+        </div>
+      </div>
+      <div class="tb-r">
+        <div class="lang-sw">
+          <button class="lsb on" id="lsw-fr" onclick="switchLang('fr')">FR</button>
+          <button class="lsb" id="lsw-en" onclick="switchLang('en')">EN</button>
+        </div>
+        <a class="moodle-a" href="https://moodle.esaip.org" target="_blank">🖥️ Moodle</a>
+        <div class="status-dot"><div class="dot"></div><span id="tb-status">En ligne</span></div>
+      </div>
+    </div>
+
+    <div id="msgs"></div>
+    <div id="chips"></div>
+
+    <div id="inarea">
+      <div id="file-chip">
+        <span>📎</span>
+        <span class="fc-name" id="fc-name"></span>
+        <button class="fc-x" onclick="clearFile()" title="Remove">×</button>
+      </div>
+      <div class="irow">
+        <button class="atch-btn" id="atch-btn" onclick="document.getElementById('file-in').click()" title="Joindre un document Moodle">
+          <svg viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        </button>
+        <input type="text" id="txt" placeholder="Posez votre question…" autocomplete="off"/>
+        <button id="snd" onclick="send()">
+          <svg viewBox="0 0 24 24"><path d="M2 21L23 12 2 3v7l15 2-15 2z"/></svg>
+        </button>
+      </div>
+      <input type="file" id="file-in" style="display:none" accept=".pdf,.txt,.md,.html,.docx,.png,.jpg,.jpeg,.webp" onchange="onFileSelected(event)"/>
+      <div class="ihint" id="ihint">Appuyez sur Entrée pour envoyer · Assistant officiel ESAIP</div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
