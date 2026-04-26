@@ -294,7 +294,7 @@ const T = {
     s_adm:'Admission & candidature',s_fees:'Frais & financement',s_intl:'International',s_life:'Vie étudiante',
     s_apply:'Candidature',s_allf:'Toutes les formations',s_doc:'Documentation',
     f_moodle:'Créer un cours Moodle',f_syl:'Rédiger un syllabus CTI',f_plan:'Plan de cours',f_eval:'Grille d\'évaluation',f_qcm:'Créer un QCM / Examen',f_rep:'Rapport de jury',f_email:'Email aux étudiants',
-    f_switch:'Changer de profil',f_key:'Se déconnecter',f_new:'✨ Nouveau chat',
+    f_switch:'Changer de profil',f_key:'Se déconnecter',f_new:'✨ Nouveau chat',f_export:'📥 Exporter',
     sndr_b:'Assistant ESAIP',sndr_u:'Vous',
     chips_s:['Comment s\'inscrire à l\'ESAIP ?','Comparer toutes les formations','Frais de scolarité par programme','Alternance et apprentissage','Opportunités internationales'],
     chips_f:['Créer un cours Moodle','Rédiger un syllabus','Générer un QCM','Plan de cours pédagogique','Email pour les étudiants'],
@@ -322,7 +322,7 @@ const T = {
     s_adm:'Admission & application',s_fees:'Tuition & funding',s_intl:'International',s_life:'Student life',
     s_apply:'Apply now',s_allf:'All programs',s_doc:'Documentation',
     f_moodle:'Create a Moodle course',f_syl:'Write a CTI syllabus',f_plan:'Lesson plan',f_eval:'Grading rubric',f_qcm:'Create quiz / exam',f_rep:'Jury report',f_email:'Email to students',
-    f_switch:'Switch profile',f_key:'Sign out',f_new:'✨ New Chat',
+    f_switch:'Switch profile',f_key:'Sign out',f_new:'✨ New Chat',f_export:'📥 Export',
     sndr_b:'ESAIP Assistant',sndr_u:'You',
     chips_s:['How to apply to ESAIP?','Compare all programs','Tuition fees by program','Apprenticeship options','International opportunities'],
     chips_f:['Create a Moodle course','Write a syllabus','Generate a quiz','Lesson plan template','Email to students'],
@@ -472,7 +472,7 @@ function applyi18n() {
     s_apply:'s-apply', s_allf:'s-allf', s_doc:'s-doc',
     f_moodle:'f-moodle', f_syl:'f-syl', f_plan:'f-plan', f_eval:'f-eval',
     f_qcm:'f-qcm', f_rep:'f-rep', f_email:'f-email',
-    f_switch:'f-switch', f_key:'f-key', f_new:'f-new',
+    f_switch:'f-switch', f_key:'f-key', f_new:'f-new', f_export:'f-export',
     lbl_prog:'lbl-prog', lbl_info:'lbl-info', lbl_links:'lbl-links', lbl_tools:'lbl-tools',
     lbl_moodle_s:'lbl-moodle-s', lbl_moodle_f:'lbl-moodle-f',
     m_submit:'m-submit', m_grades:'m-grades', m_quiz:'m-quiz', m_dl:'m-dl',
@@ -572,7 +572,7 @@ function addBot(txt) {
   const msgs = $e('msgs');
   const row = document.createElement('div');
   row.className = 'mrow';
-  row.innerHTML = `<div class="av av-b"><img src="https://www.esaip.org/wp-content/themes/esaip-v2/assets/images/Logo-ESAIP_2024.svg" alt="ES"/></div><div class="mc"><span class="sndr">${t('sndr_b')}</span><div class="bbl bb">${fmt(txt)}</div></div>`;
+  row.innerHTML = `<div class="av av-b"><img src="https://www.esaip.org/wp-content/themes/esaip-v2/assets/images/Logo-ESAIP_2024.svg" alt="ES"/></div><div class="mc"><span class="sndr">${t('sndr_b')}</span><div class="bbl bb">${fmt(txt)}</div><div class="msg-actions"><button class="msg-btn" onclick="copyMsg(this)">${_t('Copier','Copy')}</button><button class="msg-btn" onclick="downloadMsg(this)">${_t('Enregistrer','Save')}</button></div></div>`;
   msgs.appendChild(row);
   msgs.scrollTop = msgs.scrollHeight;
 }
@@ -597,6 +597,62 @@ function addTyping() {
 }
 
 function rmTyping() { const e = $e('typ'); if (e) e.remove(); }
+
+function addBotStreaming() {
+  const msgs = $e('msgs');
+  const row = document.createElement('div');
+  row.className = 'mrow';
+  row.innerHTML = `<div class="av av-b"><img src="https://www.esaip.org/wp-content/themes/esaip-v2/assets/images/Logo-ESAIP_2024.svg" alt="ES"/></div><div class="mc"><span class="sndr">${t('sndr_b')}</span><div class="bbl bb btyp"><div class="typing-dots"><span></span><span></span><span></span></div></div><div class="msg-actions"></div></div>`;
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+  return row;
+}
+
+function setBotMessage(row, text, final) {
+  const bbl = row.querySelector('.bbl');
+  bbl.className = 'bbl bb';
+  if (final) {
+    bbl.innerHTML = fmt(text);
+    const actions = row.querySelector('.msg-actions');
+    actions.innerHTML = `<button class="msg-btn" onclick="copyMsg(this)">${_t('Copier','Copy')}</button><button class="msg-btn" onclick="downloadMsg(this)">${_t('Enregistrer','Save')}</button>`;
+  } else {
+    bbl.textContent = text;
+    const cur = document.createElement('span');
+    cur.className = 'stream-cursor';
+    cur.textContent = '▌';
+    bbl.appendChild(cur);
+  }
+  $e('msgs').scrollTop = $e('msgs').scrollHeight;
+}
+
+function copyMsg(btn) {
+  const text = btn.closest('.mc').querySelector('.bbl').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const prev = btn.textContent;
+    btn.textContent = '✓';
+    setTimeout(() => { btn.textContent = prev; }, 1500);
+  });
+}
+
+function downloadMsg(btn) {
+  const text = btn.closest('.mc').querySelector('.bbl').innerText;
+  const blob = new Blob([`ESAIP AI Assistant\n${new Date().toLocaleString()}\n\n${text}`], { type: 'text/plain;charset=utf-8' });
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `esaip-${new Date().toISOString().slice(0,10)}.txt` });
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+function exportChat() {
+  if (!history.length) { alert(_t('Aucune conversation à exporter.', 'No conversation to export.')); return; }
+  const lines = history.map(m => {
+    const label = m.role === 'user' ? _t('Vous', 'You') : 'ESAIP Assistant';
+    const content = typeof m.content === 'string' ? m.content : _t('[Fichier joint]', '[Attached file]');
+    return `[${label}]\n${content}`;
+  }).join('\n\n---\n\n');
+  const blob = new Blob([`ESAIP AI Assistant — Export\n${new Date().toLocaleString()}\n\n${lines}`], { type: 'text/plain;charset=utf-8' });
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `esaip-chat-${new Date().toISOString().slice(0,10)}.txt` });
+  a.click(); URL.revokeObjectURL(a.href);
+  closeMenu();
+}
 
 // ══════════════════════════════
 //  API CALL
@@ -652,7 +708,9 @@ async function send() {
 
   busy = true;
   $e('snd').disabled = true;
-  addTyping();
+
+  const botRow = addBotStreaming();
+  let fullText = '';
 
   try {
     const res = await fetch(BACKEND_URL, {
@@ -668,18 +726,48 @@ async function send() {
         messages: history,
       }),
     });
-    const data = await res.json();
-    rmTyping();
-    if (data.error) {
-      addBot(t('err_api') + data.error.message);
+
+    const ct = res.headers.get('content-type') || '';
+
+    if (ct.includes('text/event-stream')) {
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buf = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += decoder.decode(value, { stream: true });
+        const lines = buf.split('\n');
+        buf = lines.pop();
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const raw = line.slice(6).trim();
+          if (raw === '[DONE]') continue;
+          try {
+            const ev = JSON.parse(raw);
+            if (ev.type === 'content_block_delta' && ev.delta?.type === 'text_delta') {
+              fullText += ev.delta.text;
+              setBotMessage(botRow, fullText, false);
+            }
+          } catch {}
+        }
+      }
+      setBotMessage(botRow, fullText || t('err_net'), true);
     } else {
-      const reply = (data.content || []).map(c => c.text || '').join('');
-      history.push({ role: 'assistant', content: reply });
-      addBot(reply);
+      const data = await res.json();
+      const msg = data.error
+        ? t('err_api') + data.error.message
+        : (data.content || []).map(c => c.text || '').join('');
+      fullText = msg;
+      setBotMessage(botRow, msg, true);
+    }
+
+    if (fullText && !fullText.startsWith('❌')) {
+      history.push({ role: 'assistant', content: fullText });
     }
   } catch (e) {
-    rmTyping();
-    addBot(t('err_net'));
+    setBotMessage(botRow, t('err_net'), true);
   }
 
   busy = false;

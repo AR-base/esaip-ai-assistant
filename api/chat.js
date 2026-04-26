@@ -72,12 +72,26 @@ export default async function handler(request) {
       body: JSON.stringify({
         model,
         max_tokens: maxTokens,
+        stream: true,
         system: body.system || '',
         messages: body.messages,
       }),
     });
-    const data = await upstream.json();
-    return ok(data, upstream.status);
+
+    if (!upstream.ok) {
+      const data = await upstream.json();
+      return ok(data, upstream.status);
+    }
+
+    return new Response(upstream.body, {
+      status: 200,
+      headers: {
+        ...CORS,
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'X-Accel-Buffering': 'no',
+      },
+    });
   } catch (e) {
     return err('Backend error: ' + e.message, 500);
   }

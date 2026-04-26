@@ -751,6 +751,44 @@ body::before {
 }
 .upload-card .uc-i { font-size: 14px; }
 
+/* ─── MESSAGE ACTIONS ──────────────────────── */
+
+.msg-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 5px;
+}
+
+.msg-btn {
+  background: none;
+  border: none;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  color: var(--txt3);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: color .15s, background .15s;
+}
+.msg-btn:hover {
+  color: var(--gold2);
+  background: rgba(201,168,76,.07);
+}
+
+/* Streaming cursor */
+.stream-cursor {
+  color: var(--gold2);
+  animation: blink .6s step-end infinite;
+  font-weight: 300;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
 /* ─── MOBILE RESPONSIVE ─────────────────────── */
 
 @media (max-width: 640px) {
