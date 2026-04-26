@@ -82,12 +82,15 @@ export default async function handler(request) {
         'Content-Type': 'application/json',
         'x-api-key': process.env.ANTHROPIC_API_KEY,
         'anthropic-version': '2023-06-01',
+        'anthropic-beta': 'prompt-caching-2024-07-31',
       },
       body: JSON.stringify({
         model,
         max_tokens: maxTokens,
         stream: true,
-        system: body.system || '',
+        system: body.system
+          ? [{ type: 'text', text: body.system, cache_control: { type: 'ephemeral' } }]
+          : [],
         messages: body.messages,
       }),
     });
