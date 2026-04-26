@@ -23,6 +23,12 @@ export default async function handler(request) {
   }
 
   if (request.method === 'GET') {
+    const pwd = request.headers.get('x-school-password');
+    if (pwd) {
+      if (pwd === process.env.STUDENT_PASSWORD) return ok({ valid: true, role: 'student' });
+      if (pwd === process.env.FACULTY_PASSWORD) return ok({ valid: true, role: 'faculty' });
+      return err('Mot de passe invalide / Invalid password', 401);
+    }
     return ok({ status: 'ok', service: 'ESAIP AI Backend', version: '1.0' });
   }
 
@@ -31,7 +37,7 @@ export default async function handler(request) {
   }
 
   const pwd = request.headers.get('x-school-password');
-  if (!pwd || pwd !== process.env.SCHOOL_PASSWORD) {
+  if (!pwd || (pwd !== process.env.STUDENT_PASSWORD && pwd !== process.env.FACULTY_PASSWORD)) {
     return err('Mot de passe ESAIP invalide / Invalid ESAIP password', 401);
   }
 

@@ -509,15 +509,35 @@ function renderChips() {
   $e('chips').innerHTML = cc.map(c => `<span class="chip" onclick="q('${c.replace(/'/g, "\\'")}')">${c}</span>`).join('');
 }
 
-function startApp() {
+async function startApp() {
   const k = $e('api-in').value.trim();
   if (!k) { alert(_t('Veuillez entrer le mot de passe.', 'Please enter the password.')); return; }
-  apiKey = k;
-  localStorage.setItem('esaip_k', apiKey);
-  localStorage.setItem('esaip_r', role);
-  localStorage.setItem('esaip_l', lang);
-  $e('setup').classList.add('hidden');
-  initApp();
+
+  const btn = $e('su-btn');
+  btn.disabled = true;
+  btn.textContent = _t('Vérification…', 'Checking…');
+
+  try {
+    const res = await fetch(BACKEND_URL, { headers: { 'x-school-password': k } });
+    const data = await res.json();
+    if (!res.ok || !data.valid) {
+      alert(_t('Mot de passe incorrect.', 'Incorrect password.'));
+      btn.disabled = false;
+      btn.textContent = t('su_btn');
+      return;
+    }
+    role = data.role;
+    apiKey = k;
+    localStorage.setItem('esaip_k', apiKey);
+    localStorage.setItem('esaip_r', role);
+    localStorage.setItem('esaip_l', lang);
+    $e('setup').classList.add('hidden');
+    initApp();
+  } catch (e) {
+    alert(_t('Erreur de connexion.', 'Connection error.'));
+    btn.disabled = false;
+    btn.textContent = t('su_btn');
+  }
 }
 
 function switchProfile() { $e('setup').classList.remove('hidden'); $e('api-in').value = ''; }
