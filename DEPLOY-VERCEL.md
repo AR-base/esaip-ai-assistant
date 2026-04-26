@@ -72,12 +72,15 @@ After ~30 seconds you'll see:
 1. Go to **[vercel.com/dashboard](https://vercel.com/dashboard)**
 2. Click on your project: **esaip-ai-assistant**
 3. Click **Settings** (top tabs) → **Environment Variables**
-4. Add these two variables:
+4. Add these three variables:
 
 | Name | Value | Environment |
 |---|---|---|
 | `ANTHROPIC_API_KEY` | Your `sk-ant-api03-...` key | Production, Preview, Development |
-| `SCHOOL_PASSWORD` | Pick a password (e.g. `esaip2026`) | Production, Preview, Development |
+| `STUDENT_PASSWORD` | Password for students (e.g. `esaip2026`) | Production, Preview, Development |
+| `FACULTY_PASSWORD` | Password for faculty (e.g. `esaip-prof2026`) | Production, Preview, Development |
+
+> **Note:** The password entered at login determines the role automatically — students get the student interface, faculty get the teaching tools interface.
 
 5. Click **Save** for each one
 
@@ -139,7 +142,7 @@ If you don't want to install npm/CLI:
 
 | Issue | Fix |
 |---|---|
-| "Invalid password" | `SCHOOL_PASSWORD` env var doesn't match what you typed |
+| "Invalid password" | `STUDENT_PASSWORD` or `FACULTY_PASSWORD` env var doesn't match what you typed |
 | Build fails | Make sure `api/chat.js` exists with that exact path |
 | "command not found: vercel" | Install: `npm install -g vercel` |
 | Still see errors | Check Vercel dashboard → your project → Logs tab |

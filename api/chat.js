@@ -25,6 +25,14 @@ export default async function handler(request) {
   if (request.method === 'GET') {
     const pwd = request.headers.get('x-school-password');
     if (pwd) {
+      const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
+      const hourBucket = Math.floor(Date.now() / 3_600_000);
+      const key = `auth:${ip}:${hourBucket}`;
+      const count = rateMap.get(key) || 0;
+      if (count >= RATE_LIMIT_PER_HOUR) {
+        return err('Limite atteinte. Réessayez plus tard.', 429);
+      }
+      rateMap.set(key, count + 1);
       if (pwd === process.env.STUDENT_PASSWORD) return ok({ valid: true, role: 'student' });
       if (pwd === process.env.FACULTY_PASSWORD) return ok({ valid: true, role: 'faculty' });
       return err('Mot de passe invalide / Invalid password', 401);
