@@ -567,7 +567,7 @@ function q(txt) { closeMenu(); $e('txt').value = txt; send(); }
 //  RENDER
 // ══════════════════════════════
 function fmt(s) {
-  return s
+  return esc(s)
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     .replace(/`(.*?)`/g, '<code>$1</code>')
@@ -586,7 +586,7 @@ function fmt(s) {
     .replace(/\n/g, '<br>');
 }
 
-function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
 
 function toast(msg, type = 'error', duration = 4000) {
   const icons = { error: '❌', warning: '⚠️', success: '✅', info: 'ℹ️' };

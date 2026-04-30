@@ -10,16 +10,9 @@ const ALLOWED_MODELS = ['claude-haiku-4-5', 'claude-sonnet-4-5'];
 // In-memory rate limit — resets on cold start; acceptable for low traffic
 const rateMap = new Map();
 
-const CORS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': '*',
-  'Access-Control-Max-Age': '86400',
-};
-
 export default async function handler(request) {
   if (request.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: CORS });
+    return new Response(null, { status: 204 });
   }
 
   if (request.method === 'GET') {
@@ -103,7 +96,6 @@ export default async function handler(request) {
     return new Response(upstream.body, {
       status: 200,
       headers: {
-        ...CORS,
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
         'X-Accel-Buffering': 'no',
@@ -117,7 +109,7 @@ export default async function handler(request) {
 function ok(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { ...CORS, 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
   });
 }
 
