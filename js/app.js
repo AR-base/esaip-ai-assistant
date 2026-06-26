@@ -1,6 +1,12 @@
 const BACKEND_URL = '/api/chat';
 
-let apiKey = localStorage.getItem('esaip_k') || '';
+// The school password is held in sessionStorage so it dies with the browser
+// tab — minimizing the window in which a future XSS could exfiltrate it.
+// Role and language remain in localStorage (no secret value).
+// Migrate any password previously persisted in localStorage and remove it.
+const legacyKey = localStorage.getItem('esaip_k');
+if (legacyKey) { sessionStorage.setItem('esaip_k', legacyKey); localStorage.removeItem('esaip_k'); }
+let apiKey = sessionStorage.getItem('esaip_k') || '';
 let role   = localStorage.getItem('esaip_r') || 'student';
 let lang   = localStorage.getItem('esaip_l') || 'fr';
 let history = [], busy = false;
@@ -528,7 +534,7 @@ async function startApp() {
     }
     role = data.role;
     apiKey = k;
-    localStorage.setItem('esaip_k', apiKey);
+    sessionStorage.setItem('esaip_k', apiKey);
     localStorage.setItem('esaip_r', role);
     localStorage.setItem('esaip_l', lang);
     $e('setup').classList.add('hidden');
@@ -541,7 +547,7 @@ async function startApp() {
 }
 
 function switchProfile() { $e('setup').classList.remove('hidden'); $e('api-in').value = ''; }
-function resetKey() { localStorage.removeItem('esaip_k'); apiKey = ''; $e('setup').classList.remove('hidden'); $e('api-in').value = ''; }
+function resetKey() { sessionStorage.removeItem('esaip_k'); apiKey = ''; $e('setup').classList.remove('hidden'); $e('api-in').value = ''; }
 function newChat() {
   history = [];
   $e('msgs').innerHTML = '';
@@ -566,12 +572,27 @@ function q(txt) { closeMenu(); $e('txt').value = txt; send(); }
 // ══════════════════════════════
 //  RENDER
 // ══════════════════════════════
+// HTML-escape every special character before any markdown pattern runs.
+// The model can be prompt-injected into emitting raw HTML; escaping first
+// means the only tags in the output are the ones our patterns inject.
+function esc(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function fmt(s) {
-  return s
+  return esc(s)
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     .replace(/`(.*?)`/g, '<code>$1</code>')
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+    // Link URL: http/https only, no quotes/spaces, capped length. rel=noopener
+    // prevents window.opener access from the linked page.
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s"')]{1,500})\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
     .replace(/^#{1,3}\s(.+)$/gm, '<h4>$1</h4>')
     .replace(/^\|(.+)\|$/gm, row => {
       const cells = row.split('|').filter(c => c.trim() && !/^[-:]+$/.test(c.trim()));
@@ -585,8 +606,6 @@ function fmt(s) {
     .replace(/\n{2,}/g, '\n')
     .replace(/\n/g, '<br>');
 }
-
-function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 function toast(msg, type = 'error', duration = 4000) {
   const icons = { error: '❌', warning: '⚠️', success: '✅', info: 'ℹ️' };
@@ -795,7 +814,7 @@ async function send() {
       } else if (res.status === 401) {
         botRow.remove();
         history.pop();
-        localStorage.removeItem('esaip_k');
+        sessionStorage.removeItem('esaip_k');
         apiKey = '';
         toast(_t('Session expirée. Reconnectez-vous.', 'Session expired. Please log in again.'), 'warning', 5000);
         setTimeout(() => { $e('app').classList.add('hidden'); $e('setup').classList.remove('hidden'); $e('api-in').value = ''; }, 800);
