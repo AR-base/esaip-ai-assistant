@@ -77,8 +77,21 @@ After ~30 seconds you'll see:
 | Name | Value | Environment |
 |---|---|---|
 | `ANTHROPIC_API_KEY` | Your `sk-ant-api03-...` key | Production, Preview, Development |
-| `STUDENT_PASSWORD` | Password for students (e.g. `esaip2026`) | Production, Preview, Development |
-| `FACULTY_PASSWORD` | Password for faculty (e.g. `esaip-prof2026`) | Production, Preview, Development |
+| `STUDENT_PASSWORD` | A long random secret for students | Production, Preview, Development |
+| `FACULTY_PASSWORD` | A long random secret for faculty | Production, Preview, Development |
+| `ALLOWED_ORIGIN` | Your deployed URL, e.g. `https://esaip-ai-assistant.vercel.app` (optional, only needed if you want cross-origin access from another domain) | Production, Preview, Development |
+
+> **Choosing passwords**
+> - Do **not** use a predictable word like `esaip2026` — anyone reading this README can guess it.
+> - Generate a 20+ character random secret. Easy option:
+>   ```bash
+>   openssl rand -base64 24
+>   ```
+>   or on Windows PowerShell:
+>   ```powershell
+>   -join ((48..57) + (65..90) + (97..122) | Get-Random -Count 24 | ForEach-Object {[char]$_})
+>   ```
+> - Treat the passwords like an API key. Rotate them by updating the env vars and redeploying — any cached browser sessions will be forced to re-auth.
 
 > **Note:** The password entered at login determines the role automatically — students get the student interface, faculty get the teaching tools interface.
 
@@ -96,7 +109,7 @@ Or just go to your Vercel dashboard → **Deployments** → click the latest one
 ### Step 6 — Test it
 
 1. Go to `https://esaip-ai-assistant.vercel.app` (your URL from step 3)
-2. Enter your school password (e.g. `esaip2026`)
+2. Enter the school password you generated in step 4
 3. Send a test message
 4. ✅ It should work!
 
@@ -143,6 +156,7 @@ If you don't want to install npm/CLI:
 | Issue | Fix |
 |---|---|
 | "Invalid password" | `STUDENT_PASSWORD` or `FACULTY_PASSWORD` env var doesn't match what you typed |
+| "Trop de tentatives" | The auth rate limit (10 wrong attempts / hour / IP) is protecting your account — wait the hour out or redeploy to reset |
 | Build fails | Make sure `api/chat.js` exists with that exact path |
 | "command not found: vercel" | Install: `npm install -g vercel` |
 | Still see errors | Check Vercel dashboard → your project → Logs tab |
