@@ -1,0 +1,42 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  syntax-check:
+    name: JS syntax + vercel.json validity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: node --check on every JS file
+        run: |
+          shopt -s globstar nullglob
+          for f in api/**/*.js js/**/*.js; do
+            echo "checking $f"
+            node --check "$f"
+          done
+
+      - name: vercel.json must be valid JSON
+        run: node -e "JSON.parse(require('fs').readFileSync('vercel.json','utf8'))"
+
+  secret-scan:
+    name: Guard against committed secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail if an Anthropic key is present in source
+        run: |
+          if grep -rEn "sk-ant-[A-Za-z0-9_-]{20,}" --include='*.js' --include='*.json' --include='*.html' --include='*.md' .; then
+            echo "::error::A hardcoded API key was found in source. Use 'vercel env add' instead."
+            exit 1
+          fi
+          echo "No hardcoded secrets found."
