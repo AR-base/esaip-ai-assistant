@@ -210,8 +210,8 @@ ANGERS CAMPUS (Main campus):
 - Location: 18 Rue du 8 Mai 1945, 49180 Saint-Barthélemy-d'Anjou (near Angers)
 - Facilities: Modern buildings, IT labs, Cybersecurity Innovation Hub, library, cafeteria, student lounge
 - Cybersecurity Innovation Hub: 3 rooms — surveillance room (SOC), attack room (red team), defense room (blue team) for real-world training
-- Student housing: Résidence étudiante on-site and nearby; CROUS options available
-- Transport: Tramway Line A (Angers), bus routes, bike paths; ~15min from Angers city center
+- Student housing: Résidence de l'Europe on campus (managed by Podeliha), Housing ESAIP by Studapart, CROUS, private rentals — see ACCOMMODATION section below
+- Transport: Irigo bus line 2 → stop "Gemmetrie-ESAIP"; ~15 min by bike from Angers city centre. Journey planner: https://angers-irigo.latitude-cartagene.com/
 - City of Angers: Ranked #1 greenest city in France multiple years; ~160,000 inhabitants; vibrant student life with 40,000+ students citywide
 
 AIX-EN-PROVENCE CAMPUS:
@@ -251,6 +251,46 @@ INTERNATIONAL MOBILITY:
 - International internships: Companies worldwide; ESAIP's network helps place students
 - Anglophone track at Aix: Full English curriculum from Y1
 - Double diplomas possible with select partner universities
+
+=== INTERNATIONAL STUDENTS — ARRIVING IN ANGERS ===
+Recommended ORDER (each step unlocks the next): 1) validate visa → 2) address → 3) bank account (gives the RIB) → 4) social security (needs the RIB) → 5) bus pass → 6) CAF housing aid.
+Always present these as numbered steps with the official link, and remind students that procedures change: confirm with the ESAIP International Office.
+
+1. VALIDATE THE STUDENT VISA (VLS-TS) — FIRST, within 3 months of arrival
+- Online on ANEF: https://administration-etrangers-en-france.interieur.gouv.fr
+- Pay the fee with a timbre fiscal (electronic tax stamp) during the procedure; keep the confirmation PDF — it proves legal residence and is asked for by banks and Ameli.
+- Not validating in time = irregular stay. Also pay the CVEC (https://cvec.etudiant.gouv.fr) if not done.
+
+2. OPEN A BANK ACCOUNT
+- Documents: passport, validated visa / titre de séjour, proof of address < 3 months, certificat de scolarité (ESAIP enrolment certificate).
+- No address proof yet? Use the residence/CROUS lease, or an attestation d'hébergement signed by the host + host's ID + host's proof of address.
+- Options: traditional banks in Angers (BNP Paribas, Société Générale, Crédit Agricole Anjou Maine, LCL, La Banque Postale, CIC) — book an appointment, ask for the student offer; online banks (BoursoBank, Hello bank!) often need only ID + selfie. Prefer an account with a FRENCH IBAN (FR76…): CAF and some services are easier with it.
+- If every bank refuses: keep the refusal letter and use the "droit au compte" via Banque de France (https://www.banque-france.fr) — a bank is then designated to open a free basic account.
+- Download the RIB (relevé d'identité bancaire) as soon as the account is open — needed for Ameli, CAF, Irigo direct debit, rent.
+
+3. SOCIAL SECURITY NUMBER (Assurance Maladie) — free and mandatory for students
+- Register on the international-student site: https://etudiant-etranger.ameli.fr (English available; phone 36 46).
+- Documents: passport, visa/titre de séjour, birth certificate (full copy or extract WITH parents' names — a sworn translation may be required depending on country), RIB, certificat de scolarité.
+- Steps: create account → enter French address → upload documents → download provisional certificate → then definitive certificate with the social security number.
+- After that: create an ameli.fr account + app, request the carte Vitale, declare a médecin traitant at the first GP visit (better reimbursement), and consider a mutuelle (complementary insurance) — the Sécu only reimburses part of costs; you pay first and get reimbursed.
+
+4. BUS / TRAM PASS — Irigo (Angers Loire Métropole network)
+- Student/young subscription "6-25 ans": 1 month ≈ €31.60 (no commitment); 1 year ≈ €264 upfront or €22/month by direct debit (prices from irigo.fr — check current fares).
+- Reduced rate (≈ €7.30/month) exists for low CAF quotient familial — needs a CAF Maine-et-Loire attestation.
+- Over 26: adult subscription applies (see fares page).
+- Needs the Carte A'tout (travel card). Documents: ID + proof of address < 3 months (+ RIB for direct debit).
+- Buy: eBoutique https://eboutique.irigo.fr (allow ~3 working days + post), irigo agency 5 Place de Lorraine, Angers, or tram-station machines/relay shops for monthly passes. The irigo app sells M-Tickets (monthly full-rate pass).
+- Student info: https://www.irigo.fr/etudiants | Fares: https://www.irigo.fr/tarifs/choisir-son-titre/abonnements
+- To campus: bus line 2 → "Gemmetrie-ESAIP".
+
+=== ACCOMMODATION / LOGEMENT (Angers) ===
+- Podeliha — social landlord that manages the on-campus Résidence de l'Europe (Vivapart): furnished studios and shared T3 apartments, all charges included. https://www.podeliha.fr (residence questions: https://www.esaip.org/contact/)
+- Studapart — Housing ESAIP platform, offers reserved for ESAIP students, 1 to 24 months, can include a rent guarantee: https://esaip.studapart.com/fr/
+- Leboncoin — largest classifieds site: studios, rooms, colocations from private owners: https://www.leboncoin.fr/recherche?category=10&locations=Angers_49000
+  ⚠️ Scam warning for Leboncoin and any private listing: never pay a deposit or rent before visiting (or a live video visit) and signing a lease; never send money by Western Union / gift cards / crypto; be wary of owners "abroad" sending keys by post; only send ID copies watermarked ("copie pour dossier location X").
+- CROUS Nantes Pays de la Loire residences: https://www.crous-nantes.fr
+- Guarantor problem? Visale — free state guarantee for students: https://www.visale.fr
+- Housing aid (APL): apply on https://www.caf.fr once you have a lease, a bank account and (ideally) the social security number.
 
 CTI COMPETENCY FRAMEWORK (for faculty):
 CS1 — Sciences & Engineering Fundamentals: Mathematics, physics, computer science foundations
@@ -299,12 +339,13 @@ const T = {
     s_num:'Ingénieur du Numérique',s_gre:'Ingénieur GRE',s_exp:'Programmes Expert Bac+5',s_alt:'Formations en alternance',
     s_adm:'Admission & candidature',s_fees:'Frais & financement',s_intl:'International',s_life:'Vie étudiante',
     s_apply:'Candidature',s_allf:'Toutes les formations',s_doc:'Documentation',
+    lbl_arr:'Étudiants internationaux',lbl_housing:'Logement',a_check:'Checklist d\'arrivée',a_ssn:'Sécurité sociale (Ameli)',a_bank:'Ouvrir un compte bancaire',a_bus:'Pass bus & tram Irigo',a_irigo:'irigo.fr — étudiants',h_find:'Trouver un logement',h_pod:'Podeliha — résidence du campus',h_stud:'Studapart — Housing ESAIP',h_lbc:'Leboncoin — locations Angers',
     f_moodle:'Créer un cours Moodle',f_syl:'Rédiger un syllabus CTI',f_plan:'Plan de cours',f_eval:'Grille d\'évaluation',f_qcm:'Créer un QCM / Examen',f_rep:'Rapport de jury',f_email:'Email aux étudiants',
     f_switch:'Changer de profil',f_key:'Se déconnecter',f_new:'✨ Nouveau chat',f_export:'📥 Exporter',
     sndr_b:'Assistant ESAIP',sndr_u:'Vous',
-    chips_s:['Comment s\'inscrire à l\'ESAIP ?','Comparer toutes les formations','Frais de scolarité par programme','Alternance et apprentissage','Opportunités internationales'],
+    chips_s:['Comment s\'inscrire à l\'ESAIP ?','Comparer toutes les formations','Frais de scolarité par programme','Alternance et apprentissage','Opportunités internationales','Étudiant international : par où commencer ?'],
     chips_f:['Créer un cours Moodle','Rédiger un syllabus','Générer un QCM','Plan de cours pédagogique','Email pour les étudiants'],
-    welcome_s:`Bonjour ! Je suis l'assistant IA officiel de l'**ESAIP**.\n\nJe peux vous aider sur :\n• 📚 Toutes les **formations** ESAIP (cursus, frais, admissions)\n• 🖥️ **Moodle** — soumettre un devoir, voir vos notes, dépannage\n• 📎 **Analyser un document** Moodle (PDF, image, texte) que vous me joignez\n\n☰ **Cliquez sur le bouton Menu en haut à gauche pour explorer les programmes et outils.**`,
+    welcome_s:`Bonjour ! Je suis l'assistant IA officiel de l'**ESAIP**.\n\nJe peux vous aider sur :\n• 📚 Toutes les **formations** ESAIP (cursus, frais, admissions)\n• 🖥️ **Moodle** — soumettre un devoir, voir vos notes, dépannage\n• 📎 **Analyser un document** Moodle (PDF, image, texte) que vous me joignez\n• ✈️ **Étudiants internationaux** — sécurité sociale, banque, pass bus, logement\n\n☰ **Cliquez sur le bouton Menu en haut à gauche pour explorer les programmes et outils.**`,
     welcome_f:`Bonjour ! Je suis l'assistant IA de l'**ESAIP** pour les enseignants.\n\nJe peux vous aider à :\n• 📝 Créer **syllabus, plans de cours, QCM** et grilles d'évaluation CTI\n• 🖥️ Utiliser **Moodle** — ajouter ressources, créer devoirs, noter, exporter\n• 📎 **Analyser un document** Moodle que vous me joignez\n\n☰ **Cliquez sur le bouton Menu en haut à gauche pour accéder aux outils.**`,
     err_api:'❌ Erreur API : ',err_net:'❌ Erreur de connexion. Vérifiez votre connexion internet.',
     spl_sub:'Assistant IA · Angers · Aix-en-Provence',
@@ -327,12 +368,13 @@ const T = {
     s_num:'Digital Engineering',s_gre:'Risk & Environment Eng.',s_exp:'Expert Programs Bac+5',s_alt:'Apprenticeship programs',
     s_adm:'Admission & application',s_fees:'Tuition & funding',s_intl:'International',s_life:'Student life',
     s_apply:'Apply now',s_allf:'All programs',s_doc:'Documentation',
+    lbl_arr:'International students',lbl_housing:'Accommodation',a_check:'Arrival checklist',a_ssn:'Social security (Ameli)',a_bank:'Open a bank account',a_bus:'Irigo bus & tram pass',a_irigo:'irigo.fr — students',h_find:'Find accommodation',h_pod:'Podeliha — campus residence',h_stud:'Studapart — Housing ESAIP',h_lbc:'Leboncoin — rentals in Angers',
     f_moodle:'Create a Moodle course',f_syl:'Write a CTI syllabus',f_plan:'Lesson plan',f_eval:'Grading rubric',f_qcm:'Create quiz / exam',f_rep:'Jury report',f_email:'Email to students',
     f_switch:'Switch profile',f_key:'Sign out',f_new:'✨ New Chat',f_export:'📥 Export',
     sndr_b:'ESAIP Assistant',sndr_u:'You',
-    chips_s:['How to apply to ESAIP?','Compare all programs','Tuition fees by program','Apprenticeship options','International opportunities'],
+    chips_s:['How to apply to ESAIP?','Compare all programs','Tuition fees by program','Apprenticeship options','International opportunities','International student: where do I start?'],
     chips_f:['Create a Moodle course','Write a syllabus','Generate a quiz','Lesson plan template','Email to students'],
-    welcome_s:`Hello! I'm the official **ESAIP** AI assistant.\n\nI can help you with:\n• 📚 All ESAIP **programs** (curriculum, fees, admissions)\n• 🖥️ **Moodle** — submit assignments, view grades, troubleshoot\n• 📎 **Analyze a document** you attach (PDF, image, text)\n\n☰ **Click the Menu button (top left) to explore programs and tools.**`,
+    welcome_s:`Hello! I'm the official **ESAIP** AI assistant.\n\nI can help you with:\n• 📚 All ESAIP **programs** (curriculum, fees, admissions)\n• 🖥️ **Moodle** — submit assignments, view grades, troubleshoot\n• 📎 **Analyze a document** you attach (PDF, image, text)\n• ✈️ **International students** — social security, bank, bus pass, housing\n\n☰ **Click the Menu button (top left) to explore programs and tools.**`,
     welcome_f:`Hello! I'm the **ESAIP** AI assistant for faculty.\n\nI can help you:\n• 📝 Create **syllabi, lesson plans, quizzes** and CTI grading rubrics\n• 🖥️ Use **Moodle** — add resources, create assignments, grade, export\n• 📎 **Analyze a document** you attach\n\n☰ **Click the Menu button (top left) to access teaching tools.**`,
     err_api:'❌ API Error: ',err_net:'❌ Connection error. Please check your internet connection.',
     spl_sub:'AI Assistant · Angers · Aix-en-Provence',
@@ -481,6 +523,8 @@ function applyi18n() {
     f_switch:'f-switch', f_key:'f-key', f_new:'f-new', f_export:'f-export',
     lbl_prog:'lbl-prog', lbl_info:'lbl-info', lbl_links:'lbl-links', lbl_tools:'lbl-tools',
     lbl_moodle_s:'lbl-moodle-s', lbl_moodle_f:'lbl-moodle-f',
+    lbl_arr:'lbl-arr', lbl_housing:'lbl-housing', a_check:'a-check', a_ssn:'a-ssn', a_bank:'a-bank', a_bus:'a-bus', a_irigo:'a-irigo',
+    h_find:'h-find', h_pod:'h-pod', h_stud:'h-stud', h_lbc:'h-lbc',
     m_submit:'m-submit', m_grades:'m-grades', m_quiz:'m-quiz', m_dl:'m-dl',
     m_trouble:'m-trouble', m_upload:'m-upload',
     mf_res:'mf-res', mf_dev:'mf-dev', mf_grade:'mf-grade', mf_exp:'mf-exp', mf_upload:'mf-upload',
